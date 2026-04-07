@@ -1,3 +1,6 @@
+# Development Environment Configuration
+# Usage: APP_ENV=development cargo run
+
 host = "127.0.0.1"
 port = 3000
 
@@ -6,3 +9,23 @@ url = "postgresql://user:password@localhost:5432/dev_db"
 
 [redis]
 url = "redis://localhost:6379/0"
+
+[tracing]
+# Log level: trace, debug, info, warn, error
+level = "debug"
+# Log format: pretty (colored console), json (structured)
+format = "pretty"
+# Output destinations: console, file
+output = ["console"]
+# Log file path (relative to project root)
+file_path = "logs"
+# Log rotation in days
+rotation_days = 7
+# OpenTelemetry OTLP endpoint (optional)
+# Set via environment variable: OTEL_EXPORTER_OTLP_ENDPOINT
+# or uncomment below:
+# otlp_endpoint = "http://localhost:4317"
+
+# Service metadata (optional, can be set via environment variables)
+# OTEL_SERVICE_NAME = "rust_axum_dev"
+# OTEL_SERVICE_VERSION = "0.1.0"

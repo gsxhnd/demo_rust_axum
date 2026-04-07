@@ -1,3 +1,6 @@
+# Staging Environment Configuration
+# Usage: APP_ENV=staging cargo run
+
 host = "127.0.0.1"
 port = 3001
 
@@ -6,3 +9,23 @@ url = "postgresql://user:password@localhost:5432/test_db"
 
 [redis]
 url = "redis://localhost:6379/1"
+
+[tracing]
+# Log level: trace, debug, info, warn, error
+level = "info"
+# Log format: pretty (colored console), json (structured)
+format = "json"
+# Output destinations: console, file
+output = ["console", "file"]
+# Log file path (relative to project root)
+file_path = "logs"
+# Log rotation in days
+rotation_days = 7
+# OpenTelemetry OTLP endpoint (optional)
+# Set via environment variable: OTEL_EXPORTER_OTLP_ENDPOINT
+# or uncomment below:
+# otlp_endpoint = "http://localhost:4317"
+
+# Service metadata (optional, can be set via environment variables)
+# OTEL_SERVICE_NAME = "rust_axum_staging"
+# OTEL_SERVICE_VERSION = "0.1.0"

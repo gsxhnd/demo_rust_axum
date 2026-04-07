@@ -1,13 +1,21 @@
-use rust_axum::{AppState, Config, create_router};
+use rust_axum::{AppState, Config, create_router, init_otel_layer, init_tracing, shutdown_otel};
 use sea_orm::Database;
 use tracing::info;
 
 #[tokio::main]
 async fn main() {
-    tracing_subscriber::fmt::init();
-    info!("Starting Rust Axum server...");
-
+    // 加载配置
     let config = Config::load();
+    let tracing_config = config.tracing_config();
+    let otel_config = config.opentelemetry_config();
+
+    // 初始化 tracing（日志系统）
+    let _guards = init_tracing(&tracing_config);
+
+    // 初始化 OpenTelemetry（分布式追踪）
+    let _otel_layer = init_otel_layer(&tracing_config, &otel_config);
+
+    info!("Starting Rust Axum server...");
     info!("Server configuration: {}", config.address());
 
     let db = match config.database_url() {
@@ -31,9 +39,15 @@ async fn main() {
 
     let listener = tokio::net::TcpListener::bind(&config.address())
         .await
-        .expect(&format!("Failed to bind port {}", config.port));
+        .unwrap_or_else(|_| panic!("Failed to bind port {}", config.port));
 
     info!("🚀 Server running on http://{}", config.address());
 
-    axum::serve(listener, app).await.expect("Server error");
+    // 启动服务器
+    let result = axum::serve(listener, app).await;
+
+    // 关闭时清理 OpenTelemetry 资源
+    shutdown_otel();
+
+    result.expect("Server error");
 }

@@ -6,3 +6,17 @@ url = "postgresql://user:password@localhost:5432/mydb"
 
 [redis]
 url = "redis://localhost:6379"
+
+[tracing]
+enable = true
+level = "info"
+format = "pretty"
+output = ["console"]
+file_path = "logs"
+rotation_days = 7
+
+[opentelemetry]
+enable = false
+service_name = "rust_axum"
+service_version = "0.1.0"
+otlp_endpoint = "http://localhost:4317"
