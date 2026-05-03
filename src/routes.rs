@@ -1,4 +1,4 @@
-use axum::{middleware, Router, routing::get};
+use axum::{Router, middleware, routing::get};
 
 use crate::handlers::{create_user, delete_user, get_user, get_users, health_check};
 use crate::middleware::trace_request;

@@ -34,23 +34,12 @@ impl Default for TracingConfig {
     }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Default, Deserialize)]
 pub struct OpenTelemetryConfig {
     pub enable: bool,
     pub service_name: Option<String>,
     pub service_version: Option<String>,
     pub otlp_endpoint: Option<String>,
-}
-
-impl Default for OpenTelemetryConfig {
-    fn default() -> Self {
-        Self {
-            enable: false,
-            service_name: None,
-            service_version: None,
-            otlp_endpoint: None,
-        }
-    }
 }
 
 #[derive(Debug, Clone, Deserialize)]

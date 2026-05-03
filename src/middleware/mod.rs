@@ -4,7 +4,7 @@
 
 use axum::{
     extract::Request,
-    http::{header::HeaderName, HeaderValue},
+    http::{HeaderValue, header::HeaderName},
     middleware::Next,
     response::Response,
 };
@@ -84,12 +84,16 @@ pub async fn trace_request(mut request: Request, next: Next) -> Response {
     if let Some(ref tid) = trace_id
         && let Ok(header_value) = HeaderValue::from_str(tid)
     {
-        response.headers_mut().insert(TRACE_ID_HEADER.clone(), header_value);
+        response
+            .headers_mut()
+            .insert(TRACE_ID_HEADER.clone(), header_value);
     }
     if let Some(ref sid) = span_id
         && let Ok(header_value) = HeaderValue::from_str(sid)
     {
-        response.headers_mut().insert(SPAN_ID_HEADER.clone(), header_value);
+        response
+            .headers_mut()
+            .insert(SPAN_ID_HEADER.clone(), header_value);
     }
 
     response
