@@ -10,15 +10,15 @@
 
 > 目标：补齐现有功能的短板，让项目达到"可正常开发迭代"的状态。
 
-- [ ] **Docker Compose 开发环境**
+- [x] **Docker Compose 开发环境**
   - 编排 PostgreSQL + Redis 容器
   - 生成到 `devops/local` 目录
   - 只为本地开发使用，配置直接固定值
-- [ ] **统一错误处理**
+- [x] **统一错误处理**
   - handler 全面使用 `Result<T, AppError>` 返回类型
   - 扩展 `AppError` 变体（如 `ValidationError`、`DatabaseError`）
   - 为 SeaORM `DbErr` 实现 `From<DbErr> for AppError`
-- [ ] **清理 AppState**
+- [x] **清理 AppState**
   - 移除 `users: Arc<RwLock<Vec<User>>>` 内存列表，完全依赖数据库
 
 ## Phase 2 — 功能补全
